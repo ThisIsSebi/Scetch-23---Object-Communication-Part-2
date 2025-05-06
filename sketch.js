@@ -1,15 +1,13 @@
 let bubbles = [];
 // let unicorn;
 
-
-
 function setup() {
   createCanvas(600, 400);
 
-  for(let i=0; i < 10; i++){
+  for (let i = 0; i < 100; i++) {
     let x = random(width);
     let y = random(height);
-    let r = 22;
+    let r = random(5,8);
     bubbles[i] = new Bubble(x, y, r);
   }
   // unicorn = new Bubble(400,200,10)
@@ -18,15 +16,19 @@ function setup() {
 function draw() {
   background(0);
 
-  for(b of bubbles){
+  for (b of bubbles) {
     b.show();
     b.move();
-    for(other of bubbles){
-      if(b.intersects(other)){
-        b.changeColor(255);
-      } else{
-        b.changeColor(0);
+    let overlapping = false;
+    for (other of bubbles) {
+      if (b !== other && b.intersects(other)) {
+overlapping = true;
       }
+    }
+    if(overlapping){
+      b.changeColor(255)
+    } else{
+      b.changeColor(0);
     }
   }
   // if (bubble1.intersects(bubble2)) {
@@ -57,7 +59,7 @@ class Bubble {
 
   intersects(other) {
     let d = dist(this.x, this.y, other.x, other.y);
-    return (d < this.r + other.r);
+    return d < this.r + other.r;
     // if (d < this.r + other.r) {
     //   return true;
     // } else {
@@ -86,7 +88,7 @@ class Bubble {
   show() {
     stroke(255);
     strokeWeight(4);
-    fill(this.brightness, 200);
+    fill(this.brightness, 125);
     ellipse(this.x, this.y, this.r * 2);
   }
 }
